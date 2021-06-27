@@ -1,7 +1,7 @@
 # surfs_up
 
 ## Overview
-A potential investor in a surf shop would like some weather analysis as part of his due diligence. He would like to see a summary of temperature data for the months of June and December in Oahu to understand if the business is sustainable all year. 
+A potential investor in a surf shop would like to see some weather analysis as part of his due diligence. Specifically he has requested to see a summary of temperature data for the months of June and December in Oahu to understand if the business is sustainable all year. 
 
 ## Results
 ### Deliverable 1: Temperatures in June
@@ -23,7 +23,8 @@ Some additional insight might be gained by the following analysis:
 ```
 december_2010_query = session.query(Measurement.date, Measurement.tobs).filter(extract('month', Measurement.date)==12).filter(extract('year', Measurement.date)==2010)
 ```
-2. What percentage of days in June and December is it either raining or below 70 degrees? Which would require querying data where the temperature is below 70 and the precipitation is above 0:
+2. What percentage of days in June and December is it either raining or below 70 degrees? Which would require querying data where the temperature is below 70 or the precipitation is above 0:
 ```
-december_bad_days_query = session.query(Measurement.date, Measurement.tobs, Measurement.prcp).filter(Measurement.prcp > 0.0).filter(Measurement.tobs < 70).filter(extract('month', Measurement.date)==12)
+december_bad_days_query = session.query(Measurement.date, Measurement.tobs, Measurement.prcp).filter(extract('month', Measurement.date)==12).filter(or_(Measurement.prcp > 0.0,Measurement.tobs < 70))
+
 ```
